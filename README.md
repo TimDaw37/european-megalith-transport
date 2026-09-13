@@ -6,7 +6,11 @@ Gazetteer and flow map of **proven human transport** of architectural stone in N
 - Gazetteer table: [gazetteer.html](https://timdaw37.github.io/european-megalith-transport/gazetteer.html)
 - Data: [`data/hauls.json`](data/hauls.json) (canonical) and [`data/hauls.csv`](data/hauls.csv)
 
-Current build: **v0.4.5** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+Current build: **v0.4.6** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+
+## v0.4.6 notes
+
+- Minimum-distance slider floors at **0.5 km** (local outcrop use is out of scope).
 
 ## v0.4.5 notes
 
@@ -37,6 +41,7 @@ Click a line, a point, or a row in the side list. Each haul has a stable id (`#S
 ## What it is not
 
 - Not every European dolmen. Most megaliths used stone from the building plot.
+- Not hauls under about **0.5 km** — that is local outcrop use or siting on the rock, not a transport problem this list is for.
 - Not Funnel Beaker chambers built of glacial erratics (ice moved the block; people stood it up).
 - Not Carnac alignments (local granite).
 - Not Callanish / Calanais. The pillars are Lewisian gneiss from the same ridge (Cnoc an Tursa knoll, Druim nan Eum, Na Dromannan). That is siting on the outcrop, not a sourced haul.
