@@ -6,7 +6,7 @@ Gazetteer and flow map of **published, sourced hauls** of architectural stone in
 - Gazetteer table: [gazetteer.html](https://timdaw37.github.io/european-megalith-transport/gazetteer.html)
 - Data: [`data/hauls.json`](data/hauls.json) (canonical) and [`data/hauls.csv`](data/hauls.csv)
 
-Current build: **v0.4.1** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+Current build: **v0.4.2** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
 
 ## What the map is
 
@@ -69,6 +69,10 @@ Optional schematic overlays on the map (checkboxes in the panel; legend appears 
 Data: [data/ice-extents.geojson](data/ice-extents.geojson). Illustrative outlines for comparing haul destinations with Pleistocene ice cover — **not** ice-flow routes and not survey-grade BRITICE polygons. Ireland / Orkney were under the BIIS at the LGM, so northern hauls (Newgrange, Brodgar, Maeshowe) are **post-glacial**. Salisbury Plain and Iberian / Armorican sites sit south of ice-sheet cover.
 
 Cite: Clark et al. 2022 BRITICE-CHRONO (*Boreas*); BRITICE v2; Clark and Evans 2025 (*PGA*) for Anglian evidence-limit framing.
+
+## v0.4.2 notes
+
+- Mobile-friendly map: collapsible bottom controls sheet, larger tap targets, zoom control moved for thumbs; gazetteer table scrolls horizontally on small screens.
 
 ## v0.4.1 notes
 

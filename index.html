@@ -57,13 +57,73 @@
   #hist .hbar .bar { height: 8px; background: #2e5a4c; border-radius: 2px; min-width: 2px; }
   #hist .hbar .lab { width: 72px; flex: 0 0 72px; }
   #hist .hbar .n { width: 18px; text-align: right; font-variant-numeric: tabular-nums; }
+  .panel-toggle {
+    display: none;
+    width: 100%;
+    margin: 0 0 8px;
+    background: var(--teal);
+    color: #fff;
+    border: 0;
+    padding: 10px 12px;
+    font: inherit;
+    font-size: .9rem;
+    cursor: pointer;
+    border-radius: 6px;
+    text-align: left;
+  }
+  .panel-toggle .chev { float: right; opacity: .85; }
+  .leaflet-control-attribution { font-size: 10px !important; max-width: min(70vw, 280px); }
+  @media (min-width: 721px) {
+    .panel-toggle { display: none !important; }
+  }
+  @media (max-width: 720px) {
+    h1.desk-title { display: none; }
+    .overlay {
+      top: auto; left: 0; right: 0; bottom: 0;
+      width: 100%;
+      max-height: none;
+      border-radius: 14px 14px 0 0;
+      border-left: 0; border-right: 0; border-bottom: 0;
+      padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+      box-shadow: 0 -6px 24px rgba(30,24,16,.22);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel-toggle { display: block; }
+    .overlay:not(.open) .panel-body { display: none; }
+    .overlay.open { max-height: min(62vh, 520px); }
+    .overlay.open .panel-body {
+      display: block;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+      min-height: 0;
+      padding-bottom: 4px;
+    }
+    h1 { font-size: 1.05rem; }
+    .sub { font-size: .78rem; margin-bottom: 8px; }
+    #gazetteer { max-height: none; }
+    button { min-height: 40px; padding: 8px 12px; margin-top: 10px; }
+    label { font-size: .82rem; }
+    input[type=search], select { font-size: 16px; min-height: 40px; }
+    input[type=range] { min-height: 28px; }
+    .leaflet-popup-content { min-width: 0; max-width: min(78vw, 260px); font-size: 12px; }
+  }
+  @media (max-width: 720px) and (orientation: landscape) {
+    .overlay.open { max-height: 78vh; }
+  }
 </style>
 </head>
 <body>
 <div id="map"></div>
-<aside class="overlay">
-  <h1>Proven megalith hauls</h1>
-  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.1 ·
+<aside class="overlay" id="panel">
+  <button type="button" class="panel-toggle" id="panelToggle" aria-expanded="false" aria-controls="panelBody">
+    Proven megalith hauls <span class="chev" id="panelChev">&#9650; controls</span>
+  </button>
+  <div class="panel-body" id="panelBody">
+  <h1 class="desk-title">Proven megalith hauls</h1>
+  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.2 ·
     <a href="https://github.com/TimDaw37/european-megalith-transport">repo</a> ·
     <a href="gazetteer.html">full gazetteer</a></p>
 
@@ -121,11 +181,14 @@
   <button type="button" id="fit">Fit visible</button>
   <button type="button" class="secondary" id="csv">Download CSV</button>
   <div id="gazetteer"></div>
+  </div>
 </aside>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const map = L.map('map', { zoomControl: true }).setView([48.2, -4], 5);
+const isMobile = window.matchMedia('(max-width: 720px)').matches;
+const map = L.map('map', { zoomControl: !isMobile, tapTolerance: 25 }).setView([48.2, -4], 5);
+if (isMobile) L.control.zoom({ position: 'bottomright' }).addTo(map);
 const esriLight = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles © Esri — Esri, DeLorme, NAVTEQ',
   maxZoom: 16
@@ -325,8 +388,12 @@ function focusHaul(id) {
   const obj = objects[id];
   if (!h || !obj) return;
   history.replaceState(null, '', '#' + id);
-  map.fitBounds(L.latLngBounds([obj.from, obj.to]).pad(0.45), { maxZoom: 10 });
-  obj.dest.openPopup();
+  if (window.matchMedia('(max-width: 720px)').matches) setPanelOpen(false);
+  setTimeout(() => {
+    map.invalidateSize();
+    map.fitBounds(L.latLngBounds([obj.from, obj.to]).pad(0.45), { maxZoom: 10 });
+    obj.dest.openPopup();
+  }, 50);
   document.querySelectorAll('.g-item').forEach(el => el.classList.toggle('active', el.dataset.id === id));
 }
 
@@ -384,6 +451,18 @@ document.getElementById('csv').addEventListener('click', () => {
   a.download = 'megalith-hauls.csv';
   a.click();
 });
+
+const panel = document.getElementById('panel');
+const panelToggle = document.getElementById('panelToggle');
+const panelChev = document.getElementById('panelChev');
+function setPanelOpen(open) {
+  panel.classList.toggle('open', open);
+  panelToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  panelChev.textContent = open ? '\u25bc hide' : '\u25b2 controls';
+  setTimeout(() => map.invalidateSize(), 80);
+}
+panelToggle.addEventListener('click', () => setPanelOpen(!panel.classList.contains('open')));
+window.addEventListener('resize', () => map.invalidateSize());
 </script>
 </body>
 </html>
