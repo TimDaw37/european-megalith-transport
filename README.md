@@ -1,12 +1,17 @@
 # European megalith transport
 
-Gazetteer and flow map of **published, sourced hauls** of architectural stone in Neolithic and Chalcolithic Europe. Arrow weight scales with distance; the gazetteer is the same record set.
+Gazetteer and flow map of **proven human transport** of architectural stone in Neolithic and Chalcolithic Europe — published petrographic and quarry matches, not glacial delivery. Arrow weight scales with distance; the gazetteer is the same record set.
 
 - Map: [timdaw37.github.io/european-megalith-transport](https://timdaw37.github.io/european-megalith-transport/)
 - Gazetteer table: [gazetteer.html](https://timdaw37.github.io/european-megalith-transport/gazetteer.html)
 - Data: [`data/hauls.json`](data/hauls.json) (canonical) and [`data/hauls.csv`](data/hauls.csv)
 
-Current build: **v0.4.3** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+Current build: **v0.4.4** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+
+## v0.4.4 notes
+
+- Clearer title and research subheading: proven human transport of architectural stone in Neolithic and Chalcolithic Europe.
+- v0.4.3 interactive histogram reverted (script break); earlier distance bars remain.
 
 ## What the map is
 

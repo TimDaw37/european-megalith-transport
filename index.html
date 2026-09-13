@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>European megalith transport — flow map</title>
+<title>European megalith transport — proven Neolithic hauls</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
   :root {
@@ -25,6 +25,7 @@
     box-shadow: 0 8px 28px rgba(30,24,16,.18); padding: 14px 16px 16px;
   }
   h1 { font-size: 1.15rem; margin: 0 0 4px; }
+  .lead { font-size: .88rem; color: #3d3830; margin: 0 0 8px; line-height: 1.4; }
   .sub { font-size: .82rem; color: #5a5348; margin: 0 0 10px; line-height: 1.35; }
   label { display: block; font-size: .78rem; margin: 8px 0 3px; color: #3d3830; }
   select, input[type=range], input[type=search] { width: 100%; font: inherit; }
@@ -119,11 +120,12 @@
 <div id="map"></div>
 <aside class="overlay" id="panel">
   <button type="button" class="panel-toggle" id="panelToggle" aria-expanded="false" aria-controls="panelBody">
-    Proven megalith hauls <span class="chev" id="panelChev">&#9650; controls</span>
+    European megalith transport <span class="chev" id="panelChev">&#9650; controls</span>
   </button>
   <div class="panel-body" id="panelBody">
-  <h1 class="desk-title">Proven megalith hauls</h1>
-  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.2 ·
+  <h1 class="desk-title">European megalith transport</h1>
+  <p class="lead">Proven human transport of architectural stone in Neolithic and Chalcolithic Europe — each line a published petrographic or quarry match, not glacial delivery or local outcrop siting.</p>
+  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.4 ·
     <a href="https://github.com/TimDaw37/european-megalith-transport">repo</a> ·
     <a href="gazetteer.html">full gazetteer</a></p>
 

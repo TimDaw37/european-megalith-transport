@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gazetteer — European megalith transport</title>
+<title>Gazetteer — proven Neolithic megalith hauls</title>
 <style>
   :root { --ink:#1b241c; --paper:#f4efe4; --teal:#2e5a4c; --line:#c9bfa8; }
   body { margin: 0; font-family: Georgia, "Times New Roman", serif; color: var(--ink); background: var(--paper); }
   header, main { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
   h1 { margin: 0 0 6px; font-size: 1.4rem; }
+  .lead { color: #3d3830; margin: 0 0 10px; line-height: 1.45; max-width: 52rem; }
   .sub { color: #5a5348; margin: 0 0 16px; }
   a { color: var(--teal); }
   table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: #fffdf8; }
@@ -32,46 +33,8 @@
 </head>
 <body>
 <header>
-  <h1>Reference gazetteer</h1>
-  <p class="sub">Published source → monument hauls plotted on the
-    <a href="index.html">flow map</a>. Each row is one lithology movement with a cited identification.
-    Coordinates for <em>sector-centroid</em> and <em>basin-sector</em> records are midpoints of a published search area, not a pegged quarry face.
-    v0.4.2 · <a href="https://github.com/TimDaw37/european-megalith-transport">repository</a> ·
+    <h1>European megalith transport — gazetteer</h1>
+  <p class="lead">Proven human transport of architectural stone in Neolithic and Chalcolithic Europe. Each row is one published source–monument lithology match (petrography, geochemistry, quarry or refit) — not glacial erratics and not stone used from the building plot.</p>
+  <p class="sub">Same records as the <a href="index.html">flow map</a>. Sector-centroid and basin-sector coordinates are midpoints of a published search area, not a pegged quarry face.
+    v0.4.4 · <a href="https://github.com/TimDaw37/european-megalith-transport">repository</a> ·
     <a href="data/hauls.json">hauls.json</a> · <a href="data/hauls.csv">hauls.csv</a></p>
-</header>
-<main>
-<div class="table-wrap">
-<table id="t">
-  <thead>
-    <tr>
-      <th>ID</th><th>km</th><th>Monument</th><th>Source</th><th>Rock</th>
-      <th>Mode</th><th>Evidence</th><th>Method</th><th>References</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
-</div>
-</main>
-<script>
-function band(km) { return km >= 200 ? 'hi' : km >= 20 ? 'mid' : 'lo'; }
-fetch('data/hauls.json').then(r => r.json()).then(j => {
-  const body = document.querySelector('#t tbody');
-  const rows = j.hauls.slice().sort((a,b) => b.km_used - a.km_used);
-  body.innerHTML = rows.map(h => `<tr id="${h.id}">
-    <td><a href="index.html#${h.id}">${h.id}</a></td>
-    <td class="km ${band(h.km_used)}">${h.km_used}<div class="muted">${h.km_min}–${h.km_max}</div></td>
-    <td><strong>${h.site}</strong><div class="muted">${h.region}</div></td>
-    <td>${h.source}<div class="muted">${h.source_precision}</div></td>
-    <td>${h.rock}${h.mass_t ? `<div class="muted">${h.mass_t} t</div>` : ''}</td>
-    <td>${h.mode}</td>
-    <td>${h.evidence}</td>
-    <td>${h.method}</td>
-    <td>${(h.refs||[]).join('; ')}</td>
-  </tr>`).join('');
-  const id = decodeURIComponent(location.hash.replace('#',''));
-  const el = id && document.getElementById(id);
-  if (el) { el.classList.add('target'); el.scrollIntoView({ block: 'center' }); }
-});
-</script>
-</body>
-</html>
