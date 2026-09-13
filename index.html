@@ -58,7 +58,7 @@
 <div id="map"></div>
 <aside class="overlay">
   <h1>Proven megalith hauls</h1>
-  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.2 ·
+  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.2.1 ·
     <a href="https://github.com/TimDaw37/european-megalith-transport">repo</a> ·
     <a href="gazetteer.html">full gazetteer</a></p>
 
@@ -93,11 +93,16 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const map = L.map('map', { zoomControl: true }).setView([48.2, -4], 5);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; OpenStreetMap, &copy; CARTO',
-  subdomains: 'abcd',
+const esriLight = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles © Esri — Esri, DeLorme, NAVTEQ',
+  maxZoom: 16
+});
+const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   maxZoom: 19
-}).addTo(map);
+});
+esriLight.addTo(map);
+L.control.layers({ 'Light canvas': esriLight, 'OpenStreetMap': osm }, null, { collapsed: true }).addTo(map);
 
 const layer = L.layerGroup().addTo(map);
 let HAULS = [];
