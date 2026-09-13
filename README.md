@@ -6,7 +6,11 @@ Gazetteer and flow map of **proven human transport** of architectural stone in N
 - Gazetteer table: [gazetteer.html](https://timdaw37.github.io/european-megalith-transport/gazetteer.html)
 - Data: [`data/hauls.json`](data/hauls.json) (canonical) and [`data/hauls.csv`](data/hauls.csv)
 
-Current build: **v0.4.7** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+Current build: **v0.4.8** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+
+## v0.4.8 notes
+
+- Arrowheads shrink with zoom (and stay small on mobile) so close-ups stay readable and tappable.
 
 ## v0.4.7 notes
 

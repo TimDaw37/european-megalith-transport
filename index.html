@@ -160,7 +160,7 @@
   <div class="panel-body" id="panelBody">
   <h1 class="desk-title">European anthropic megalithic transport</h1>
   <p class="lead">Proven <strong>anthropic</strong> (human) transport of architectural stone in Neolithic and Chalcolithic Europe — each line a published petrographic or quarry match, not glacial delivery or local outcrop siting.</p>
-  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.7 ·
+  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.8 ·
     <a href="https://github.com/TimDaw37/european-megalith-transport">repo</a> ·
     <a href="gazetteer.html">full gazetteer</a></p>
 
@@ -353,13 +353,16 @@ function arrowHead(pts, col, w) {
   const prev = pts[n - 4] || pts[n - 2];
   const ang = heading(prev, tip);
   const mobile = window.matchMedia('(max-width: 720px)').matches;
-  const scale = mobile ? 0.4 : 0.7;
-  const len = (0.12 + w * 0.018) * scale;
-  const spread = mobile ? 0.42 : 0.5;
+  // Geographic length would explode when zoomed in — scale down with zoom.
+  const z = map.getZoom();
+  const zoomScale = Math.pow(0.58, Math.max(0, z - 4));
+  const base = mobile ? 0.028 : 0.055;
+  const len = (base + w * (mobile ? 0.004 : 0.008)) * zoomScale;
+  const spread = mobile ? 0.4 : 0.48;
   const left = [tip[0] - len * Math.cos(ang - spread), tip[1] - len * Math.sin(ang - spread)];
   const right = [tip[0] - len * Math.cos(ang + spread), tip[1] - len * Math.sin(ang + spread)];
   return L.polygon([left, tip, right], {
-    color: col, weight: 1, fillColor: col, fillOpacity: 0.95, interactive: false,
+    color: col, weight: 1, fillColor: col, fillOpacity: 0.92, interactive: false,
     className: 'haul-arrow'
   });
 }
@@ -538,6 +541,11 @@ function setPanelOpen(open) {
   setTimeout(() => map.invalidateSize(), 80);
 }
 panelToggle.addEventListener('click', () => setPanelOpen(!panel.classList.contains('open')));
+let _zoomDrawTimer = null;
+map.on('zoomend', () => {
+  clearTimeout(_zoomDrawTimer);
+  _zoomDrawTimer = setTimeout(() => { if (HAULS.length) draw(); }, 80);
+});
 window.addEventListener('resize', () => map.invalidateSize());
 </script>
 </body>
