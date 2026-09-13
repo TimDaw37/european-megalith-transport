@@ -6,7 +6,11 @@ Gazetteer and flow map of **proven human transport** of architectural stone in N
 - Gazetteer table: [gazetteer.html](https://timdaw37.github.io/european-megalith-transport/gazetteer.html)
 - Data: [`data/hauls.json`](data/hauls.json) (canonical) and [`data/hauls.csv`](data/hauls.csv)
 
-Current build: **v0.4.8** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+Current build: **v0.4.9** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+
+## v0.4.9 notes
+
+- Legend keys match the map: filled circle = monument, open circle = source, small arrowhead = haul direction (no diamond).
 
 ## v0.4.8 notes
 
@@ -44,7 +48,7 @@ Stroke weight uses `1.2 + 3.4 Ã- log10(km)` so a 4 km Gavrinis crossing remains
 | Amber | 20âEUR"200 km |
 | Red | â¥ 200 km |
 
-Click a line, a point, or a row in the side list. Each haul has a stable id (`#SH-altar`) shared by the map and the gazetteer page.
+Click a line, a point, or a row in the side list. Monument = filled circle; source = open circle. Each haul has a stable id (`#SH-altar`) shared by the map and the gazetteer page.
 
 ## What it is not
 

@@ -31,6 +31,23 @@
   select, input[type=range], input[type=search] { width: 100%; font: inherit; }
   input[type=search] { padding: 4px 6px; border: 1px solid var(--line); background: #fff; }
   .swatch { width: 22px; height: 4px; border-radius: 2px; display: inline-block; }
+  .keyrow { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin: 4px 0; }
+  .keyrow .ki { display: inline-flex; align-items: center; gap: 5px; }
+  .key-mon {
+    width: 9px; height: 9px; border-radius: 50%; background: #2e5a4c;
+    border: 1px solid #1b241c; display: inline-block; flex: 0 0 auto;
+  }
+  .key-src {
+    width: 9px; height: 9px; border-radius: 50%; background: #fffdf8;
+    border: 1.5px solid #1b241c; display: inline-block; flex: 0 0 auto;
+  }
+  .key-arr {
+    width: 0; height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 9px solid #2e5a4c;
+    display: inline-block; flex: 0 0 auto;
+  }
   .legend { margin-top: 8px; border-top: 1px solid var(--line); padding-top: 8px; font-size: .75rem; color: #4a453c; }
   .legend div { margin: 3px 0; display: flex; gap: 8px; align-items: center; }
   button {
@@ -160,7 +177,7 @@
   <div class="panel-body" id="panelBody">
   <h1 class="desk-title">European anthropic megalithic transport</h1>
   <p class="lead">Proven <strong>anthropic</strong> (human) transport of architectural stone in Neolithic and Chalcolithic Europe — each line a published petrographic or quarry match, not glacial delivery or local outcrop siting.</p>
-  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.8 ·
+  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.9 ·
     <a href="https://github.com/TimDaw37/european-megalith-transport">repo</a> ·
     <a href="gazetteer.html">full gazetteer</a></p>
 
@@ -205,7 +222,11 @@
     <div><span class="swatch" style="background:#8b3a2a;height:8px"></span> ≥200 km</div>
     <div><span class="swatch" style="background:#c46b2c;height:5px"></span> 20–200 km</div>
     <div><span class="swatch" style="background:#2e5a4c;height:3px"></span> <20 km</div>
-    <div>● monument &nbsp; ◆ source &nbsp; → direction of haul</div>
+    <div class="keyrow">
+      <span class="ki"><span class="key-mon" aria-hidden="true"></span> monument</span>
+      <span class="ki"><span class="key-src" aria-hidden="true"></span> source</span>
+      <span class="ki"><span class="key-arr" aria-hidden="true"></span> haul direction</span>
+    </div>
     <div id="iceLegend" style="display:none;margin-top:4px;">
       <div><span class="swatch" style="background:#2a4d6e;height:3px"></span> Devensian LGM margin</div>
       <div><span class="swatch" style="background:#6b4c7a;height:3px"></span> Anglian evidence (E England)</div>
