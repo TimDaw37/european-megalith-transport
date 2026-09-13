@@ -33,8 +33,54 @@
 </head>
 <body>
 <header>
-    <h1>European anthropic megalithic transport — gazetteer</h1>
+  <h1>European anthropic megalithic transport — gazetteer</h1>
   <p class="lead">Proven <strong>anthropic</strong> (human) transport of architectural stone in Neolithic and Chalcolithic Europe. Each row is one published source–monument lithology match (petrography, geochemistry, quarry or refit) — not glacial erratics and not stone used from the building plot.</p>
   <p class="sub">Same records as the <a href="index.html">flow map</a>. Sector-centroid and basin-sector coordinates are midpoints of a published search area, not a pegged quarry face.
-    v0.4.5 · <a href="https://github.com/TimDaw37/european-megalith-transport">repository</a> ·
+    v0.4.11 · <a href="https://github.com/TimDaw37/european-megalith-transport">repository</a> ·
     <a href="data/hauls.json">hauls.json</a> · <a href="data/hauls.csv">hauls.csv</a></p>
+</header>
+<main>
+<div class="table-wrap">
+<table id="t">
+  <thead>
+    <tr>
+      <th>ID</th><th>km</th><th>Monument</th><th>Source</th><th>Rock</th>
+      <th>Mode</th><th>Evidence</th><th>Method</th><th>References</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+</div>
+</main>
+<script>
+function band(km) { return km >= 200 ? 'hi' : km >= 20 ? 'mid' : 'lo'; }
+function jumpToHash() {
+  const id = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  document.querySelectorAll('tr.target').forEach(tr => tr.classList.remove('target'));
+  el.classList.add('target');
+  requestAnimationFrame(() => el.scrollIntoView({ block: 'center', behavior: 'smooth' }));
+}
+
+fetch('data/hauls.json').then(r => r.json()).then(j => {
+  const body = document.querySelector('#t tbody');
+  const rows = j.hauls.slice().sort((a,b) => b.km_used - a.km_used);
+  body.innerHTML = rows.map(h => `<tr id="${h.id}">
+    <td><a href="index.html#${h.id}">${h.id}</a></td>
+    <td class="km ${band(h.km_used)}">${h.km_used}<div class="muted">${h.km_min}–${h.km_max}</div></td>
+    <td><strong>${h.site}</strong><div class="muted">${h.region}</div></td>
+    <td>${h.source}<div class="muted">${h.source_precision}</div></td>
+    <td>${h.rock}${h.mass_t ? `<div class="muted">${h.mass_t} t</div>` : ''}</td>
+    <td>${h.mode}</td>
+    <td>${h.evidence}</td>
+    <td>${h.method}</td>
+    <td>${(h.refs||[]).join('; ')}</td>
+  </tr>`).join('');
+  jumpToHash();
+});
+window.addEventListener('hashchange', jumpToHash);
+</script>
+</body>
+</html>
