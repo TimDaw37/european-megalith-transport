@@ -369,12 +369,12 @@ function heading(p0, p1) {
   return Math.atan2(p1[1] - p0[1], p1[0] - p0[0]);
 }
 function arrowLenDeg() {
-  // ~constant on-screen size so heads stay visible without ballooning when zoomed in
+  // Constant on-screen size: visible at continent zoom, not huge close-up
   const mobile = window.matchMedia('(max-width: 720px)').matches;
   const wantPx = mobile ? 11 : 14;
   const c = map.getCenter();
-  const p = map.latLngToContainerPoint(c);
-  const ll = map.containerPointToLatLng(L.point(p.x + wantPx, p.y));
+  const pt = map.latLngToContainerPoint(c);
+  const ll = map.containerPointToLatLng(L.point(pt.x + wantPx, pt.y));
   return Math.max(1e-5, Math.abs(ll.lng - c.lng));
 }
 
@@ -392,3 +392,187 @@ function arrowHead(pts, col, w) {
     className: 'haul-arrow'
   });
 }
+
+function popup(h) {
+  const mass = h.mass_t ? `${h.mass_t} t` : '—';
+  const refs = (h.refs || []).join('; ');
+  return `<h3>${h.site}</h3>
+    <div><strong>From</strong> ${h.source}</div>
+    <div><strong>Rock</strong> ${h.rock}</div>
+    <div><strong>Distance</strong> ${h.km_used} km <span class="muted">(range ${h.km_min}–${h.km_max})</span></div>
+    <div><strong>Mass</strong> ${mass}${h.mass_note ? ' · ' + h.mass_note : ''}</div>
+    <div><strong>Mode</strong> ${h.mode}</div>
+    <div><strong>Evidence</strong> ${h.evidence} · ${h.source_precision}</div>
+    <div><strong>Method</strong> ${h.method}</div>
+    <div class="muted">${refs}</div>
+    <div><a href="gazetteer.html#${h.id}">Open gazetteer row</a></div>`;
+}
+
+let histBand = null;
+
+const HIST_BINS = [
+  { lab: '<5', lo: 0, hi: 5, c: '#2e5a4c' },
+  { lab: '5\u201320', lo: 5, hi: 20, c: '#2e5a4c' },
+  { lab: '20\u201350', lo: 20, hi: 50, c: '#c46b2c' },
+  { lab: '50\u2013200', lo: 50, hi: 200, c: '#c46b2c' },
+  { lab: '\u2265200', lo: 200, hi: 1e9, c: '#8b3a2a' }
+];
+
+function visibleBase() {
+  const minKm = Number(document.getElementById('minKm').value);
+  const region = document.getElementById('region').value;
+  const ev = document.getElementById('evidence').value;
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const noSh = document.getElementById('noSh').checked;
+  return HAULS.filter(h =>
+    h.km_used >= minKm &&
+    (region === 'all' || h.region === region) &&
+    (ev === 'all' || h.evidence === ev) &&
+    (!noSh || !/stonehenge/i.test(h.site + ' ' + h.id)) &&
+    (!q || [h.site, h.source, h.rock, h.region, h.id].join(' ').toLowerCase().includes(q))
+  );
+}
+
+function visible() {
+  const rows = visibleBase();
+  if (!histBand) return rows;
+  return rows.filter(h => h.km_used >= histBand.lo && h.km_used < histBand.hi);
+}
+
+const objects = {};
+
+function draw() {
+  layer.clearLayers();
+  Object.keys(objects).forEach(k => delete objects[k]);
+  const rows = visible().slice().sort((a, b) => b.km_used - a.km_used);
+  document.getElementById('stats').textContent =
+    `${rows.length} haul${rows.length === 1 ? '' : 's'} · longest ${rows.reduce((m,h)=>Math.max(m,h.km_used),0)} km`;
+  renderHist();
+  rows.forEach(h => {
+    const from = [h.source_lat, h.source_lon];
+    const to = [h.site_lat, h.site_lon];
+    const col = colour(h.km_used);
+    const pts = curve(from, to);
+    const line = L.polyline(pts, {
+      color: col, weight: weight(h.km_used), opacity: 0.82, lineCap: 'round'
+    }).bindPopup(popup(h));
+    line.addTo(layer);
+    arrowHead(pts, col, weight(h.km_used)).addTo(layer);
+    const dest = L.circleMarker(to, { radius: 6, color: '#1b241c', weight: 1, fillColor: col, fillOpacity: 0.95 })
+      .bindPopup(popup(h)).addTo(layer);
+    const src = L.circleMarker(from, { radius: 5, color: '#1b241c', weight: 1, fillColor: '#fffdf8', fillOpacity: 1 })
+      .bindPopup(popup(h)).addTo(layer);
+    objects[h.id] = { line, dest, src, from, to };
+  });
+  renderList(rows);
+}
+
+function renderList(rows) {
+  const box = document.getElementById('gazetteer');
+  box.innerHTML = rows.map(h => `
+    <div class="g-item" data-id="${h.id}">
+      <div class="g-km" style="color:${colour(h.km_used)}">${h.km_used}<br><span class="muted">km</span></div>
+      <div>
+        <span class="dot" style="background:${colour(h.km_used)}"></span><strong>${h.site}</strong>
+        <div class="g-src">${h.source} · ${h.rock}</div>
+        <div class="muted">${h.region} · ${h.evidence}</div>
+      </div>
+    </div>`).join('');
+  box.querySelectorAll('.g-item').forEach(el => {
+    el.addEventListener('click', () => focusHaul(el.dataset.id));
+  });
+}
+
+function focusHaul(id) {
+  const h = byId[id];
+  const obj = objects[id];
+  if (!h || !obj) return;
+  history.replaceState(null, '', '#' + id);
+  if (window.matchMedia('(max-width: 720px)').matches) setPanelOpen(false);
+  setTimeout(() => {
+    map.invalidateSize();
+    map.fitBounds(L.latLngBounds([obj.from, obj.to]).pad(0.45), { maxZoom: 10 });
+    obj.dest.openPopup();
+  }, 50);
+  document.querySelectorAll('.g-item').forEach(el => el.classList.toggle('active', el.dataset.id === id));
+}
+
+function toCsv(rows) {
+  const cols = ['id','site','source','rock','km_used','km_min','km_max','mass_t','mode','evidence','region','refs'];
+  const esc = v => `"${String(v ?? '').replace(/"/g,'""')}"`;
+  return [cols.join(','), ...rows.map(r => cols.map(c => esc(c === 'refs' ? (r.refs||[]).join('; ') : r[c])).join(','))].join('\n');
+}
+
+fetch('data/hauls.json')
+  .then(r => r.json())
+  .then(j => {
+    HAULS = j.hauls;
+    HAULS.forEach(h => { byId[h.id] = h; });
+    const regions = [...new Set(HAULS.map(h => h.region))].sort();
+    const sel = document.getElementById('region');
+    regions.forEach(r => {
+      const o = document.createElement('option');
+      o.value = r; o.textContent = r; sel.appendChild(o);
+    });
+    draw();
+    const b = L.latLngBounds(HAULS.flatMap(h => [[h.site_lat,h.site_lon],[h.source_lat,h.source_lon]]));
+    map.fitBounds(b.pad(0.08));
+    const hash = decodeURIComponent(location.hash.replace('#',''));
+    if (hash && byId[hash]) setTimeout(() => focusHaul(hash), 400);
+  });
+
+fetch('data/ice-extents.geojson')
+  .then(r => r.json())
+  .then(j => { ICE = j; syncIce(); })
+  .catch(() => {});
+
+['iceBiis','iceAnglian','iceMountains'].forEach(id => {
+  document.getElementById(id).addEventListener('change', syncIce);
+});
+
+document.getElementById('minKm').addEventListener('input', e => {
+  document.getElementById('minLabel').textContent = e.target.value;
+  draw();
+});
+document.getElementById('region').addEventListener('change', draw);
+document.getElementById('evidence').addEventListener('change', draw);
+document.getElementById('noSh').addEventListener('change', draw);
+document.getElementById('q').addEventListener('input', draw);
+document.getElementById('fit').addEventListener('click', () => {
+  const rows = visible();
+  if (!rows.length) return;
+  const b = L.latLngBounds(rows.flatMap(h => [[h.site_lat,h.site_lon],[h.source_lat,h.source_lon]]));
+  map.fitBounds(b.pad(0.1));
+});
+document.getElementById('csv').addEventListener('click', () => {
+  const blob = new Blob([toCsv(visible())], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'megalith-hauls.csv';
+  a.click();
+});
+
+document.getElementById('histClear').addEventListener('click', () => {
+  histBand = null;
+  draw();
+});
+
+const panel = document.getElementById('panel');
+const panelToggle = document.getElementById('panelToggle');
+const panelChev = document.getElementById('panelChev');
+function setPanelOpen(open) {
+  panel.classList.toggle('open', open);
+  panelToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  panelChev.textContent = open ? '\u25bc hide' : '\u25b2 controls';
+  setTimeout(() => map.invalidateSize(), 80);
+}
+panelToggle.addEventListener('click', () => setPanelOpen(!panel.classList.contains('open')));
+let _zoomDrawTimer = null;
+map.on('zoomend', () => {
+  clearTimeout(_zoomDrawTimer);
+  _zoomDrawTimer = setTimeout(() => { if (HAULS.length) draw(); }, 80);
+});
+window.addEventListener('resize', () => map.invalidateSize());
+</script>
+</body>
+</html>
