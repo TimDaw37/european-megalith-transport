@@ -80,6 +80,21 @@
   </label>
   <p class="muted" style="margin:2px 0 0;font-size:.72rem;">Hides the four Salisbury Plain hauls so the rest of Europe can be read.</p>
 
+  <label style="margin-top:12px;font-weight:700;">Ice margins (schematic)</label>
+  <label style="display:flex;align-items:center;gap:8px;margin-top:4px;cursor:pointer;">
+    <input type="checkbox" id="iceBiis" style="width:auto;">
+    BIIS / Devensian LGM southern margin
+  </label>
+  <label style="display:flex;align-items:center;gap:8px;margin-top:4px;cursor:pointer;">
+    <input type="checkbox" id="iceAnglian" style="width:auto;">
+    Anglian limit of preserved evidence
+  </label>
+  <label style="display:flex;align-items:center;gap:8px;margin-top:4px;cursor:pointer;">
+    <input type="checkbox" id="iceMountains" style="width:auto;">
+    Mountain ice (Pyrenees, Massif Central, Alps)
+  </label>
+  <p class="muted" style="margin:4px 0 0;font-size:.72rem;">Not routes — ice <em>wasn’t</em> over Salisbury Plain or Iberian / Armorican haul sites. Schematic outlines; see data/ice-extents.geojson.</p>
+
   <label>Find in gazetteer</label>
   <input type="search" id="q" placeholder="Site, source, rock…">
 
@@ -88,6 +103,9 @@
     <div><span class="swatch" style="background:#c46b2c;height:5px"></span> 20–200 km</div>
     <div><span class="swatch" style="background:#2e5a4c;height:3px"></span> <20 km</div>
     <div>● monument &nbsp; ◆ source &nbsp; → direction of haul</div>
+    <div><span class="swatch" style="background:#2a4d6e;height:3px"></span> Devensian LGM margin</div>
+    <div><span class="swatch" style="background:#6b4c7a;height:3px;border-bottom:2px dashed #6b4c7a"></span> Anglian evidence limit</div>
+    <div><span class="swatch" style="background:#7ea0c4;height:8px;opacity:.5"></span> Mountain ice caps</div>
     <div class="count" id="stats"></div>
     <p class="muted" style="margin:8px 0 0">Schematic flows, not reconstructed routes. Sector centroids are approximate.</p>
   </div>
@@ -111,7 +129,50 @@ esriLight.addTo(map);
 L.control.layers({ 'Light canvas': esriLight, 'OpenStreetMap': osm }, null, { collapsed: true }).addTo(map);
 
 const layer = L.layerGroup().addTo(map);
+const iceLayer = L.layerGroup().addTo(map);
 let HAULS = [];
+let ICE = null;
+
+function iceStyle(f) {
+  const p = f.properties || {};
+  if (p.kind === 'mountain-ice') {
+    return { color: '#5b7fa6', weight: 1, fillColor: '#7ea0c4', fillOpacity: 0.28, opacity: 0.7 };
+  }
+  if (p.style === 'dashed') {
+    return { color: '#6b4c7a', weight: 3, dashArray: '8 6', opacity: 0.9, fillOpacity: 0 };
+  }
+  return { color: '#2a4d6e', weight: 3.5, opacity: 0.92, fillOpacity: 0 };
+}
+
+function icePopup(f) {
+  const p = f.properties || {};
+  return `<h3>${p.label || 'Ice margin'}</h3>
+    <div><strong>Age</strong> ${p.age || ''}</div>
+    <div class="muted">${p.cite || ''}</div>
+    <div class="muted" style="margin-top:4px">Schematic for map context — not a reconstructed ice-flow route.</div>`;
+}
+
+function syncIce() {
+  iceLayer.clearLayers();
+  if (!ICE) return;
+  const showBiis = document.getElementById('iceBiis').checked;
+  const showAng = document.getElementById('iceAnglian').checked;
+  const showMtn = document.getElementById('iceMountains').checked;
+  ICE.features.forEach(f => {
+    const p = f.properties || {};
+    const id = p.id || '';
+    if (id === 'biis-lgm-south' && !showBiis) return;
+    if (id === 'anglian-evidence' && !showAng) return;
+    if (p.kind === 'mountain-ice' && !showMtn) return;
+    if (id !== 'biis-lgm-south' && id !== 'anglian-evidence' && p.kind !== 'mountain-ice') return;
+    L.geoJSON(f, {
+      style: iceStyle,
+      onEachFeature: (feat, lyr) => lyr.bindPopup(icePopup(feat))
+    }).addTo(iceLayer);
+  });
+}
+
+
 const byId = {};
 
 function colour(km) {
@@ -261,6 +322,15 @@ fetch('data/hauls.json')
     const hash = decodeURIComponent(location.hash.replace('#',''));
     if (hash && byId[hash]) setTimeout(() => focusHaul(hash), 400);
   });
+
+fetch('data/ice-extents.geojson')
+  .then(r => r.json())
+  .then(j => { ICE = j; syncIce(); })
+  .catch(() => {});
+
+['iceBiis','iceAnglian','iceMountains'].forEach(id => {
+  document.getElementById(id).addEventListener('change', syncIce);
+});
 
 document.getElementById('minKm').addEventListener('input', e => {
   document.getElementById('minLabel').textContent = e.target.value;

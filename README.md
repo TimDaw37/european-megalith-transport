@@ -57,6 +57,18 @@ Clarke et al. 2026 on the Devilâ€™s Arrows (`DA-brimham`) is a direct empirical 
 4. Cite the paper that pins the source, not a guidebook.
 5. Rebuild `data/hauls.csv` from the JSON if you edit by hand.
 
+
+## Ice margins layer
+
+Optional schematic overlays on the map (toggles off by default in spirit — checkboxes in the panel):
+
+- **BIIS / Devensian LGM** southern onshore margin
+- **Anglian** limit of preserved onshore evidence (SW poorly constrained; dashed)
+- **Mountain ice** footprints: Pyrenees, Massif Central, western Alps
+
+Data: [data/ice-extents.geojson](data/ice-extents.geojson). These are **illustrative outlines** for comparing haul destinations with Pleistocene ice cover — not reconstructed ice-flow routes and not survey-grade BRITICE polygons. Salisbury Plain and the Iberian / Armorican haul sites sit south of any ice sheet that could deliver Scottish/Welsh-scale erratics.
+
+Cite: Clark et al. 2022 BRITICE-CHRONO (*Boreas*); BRITICE v2; Clark and Evans 2025 (*PGA*) for Anglian evidence-limit framing.
 ## Licence
 
 Text, gazetteer coordinates assembled here, and the map page: **CC BY-SA 4.0 Tim Daw**.
