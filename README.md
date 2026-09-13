@@ -29,7 +29,20 @@ Click a line, a point, or a row in the side list. Each haul has a stable id (`#S
 - Not every European dolmen. Most megaliths used stone from the building plot.
 - Not Funnel Beaker chambers built of glacial erratics (ice moved the block; people stood it up).
 - Not Carnac alignments (local granite).
+- Not Callanish / Calanais. The pillars are Lewisian gneiss from the same ridge (Cnoc an Tursa knoll, Druim nan Eum, Na Dromannan). That is siting on the outcrop, not a sourced haul.
 - Not a claim that 19th-century 35–40 km attributions (La Perrotte, Moulins-sur-Céphons) have been re-proven.
+
+## The debate this list is for
+
+The gazetteer is an evidence table for a three-paper exchange in *Antiquity* that still sets the terms:
+
+1. **R. S. Thorpe & O. Williams-Thorpe 1991.** “The myth of long-distance megalith transport.” *Antiquity* 65: 64–73. Most published long hauls, Stonehenge bluestones included, were weakly provenanced; glacial erratics and local stone had been underplayed.
+2. **Aubrey Burl 1991.** “Megalithic myth or man the mover?” *Antiquity* 65: 297–298. Push-back: people did move large stones, and the glacial-erratic reading of Stonehenge does not close the case.
+3. **Mark Patton 1992.** “Megalithic transport and territorial markers: evidence from the Channel Islands.” *Antiquity* 66: 392–395. Middle position. La Hougue Bie (`LHB-foreshore` in this gazetteer) shows short-to-medium hauls that are not simply “whatever is nearest.” Kalb 1996 on Vale de Rodrigo (`VDR-barroco`) is written as a sequel to the same argument.
+
+Modern petrography and isotopes (Bevins, Ixer, Nash, Clarke and the Iberian geoarchaeology papers) have superseded parts of 1991 — the bluestones and the Altar Stone are no longer a myth — but they have also confirmed the other half of Thorpe & Williams-Thorpe: the default European megalith is local or a few kilometres. The histogram in this dataset is Patton’s picture with a thin long tail: a fat local peak, a 3–18 km territorial band, and a handful of genuine long hauls.
+
+Clarke et al. 2026 on the Devil’s Arrows (`DA-brimham`) is a direct empirical reply to the 1991 glacial-erratic suggestion for that row.
 
 ## Evidence grades
 
