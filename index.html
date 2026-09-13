@@ -58,7 +58,7 @@
 <div id="map"></div>
 <aside class="overlay">
   <h1>Proven megalith hauls</h1>
-  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.2.1 ·
+  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.3 ·
     <a href="https://github.com/TimDaw37/european-megalith-transport">repo</a> ·
     <a href="gazetteer.html">full gazetteer</a></p>
 
@@ -73,6 +73,12 @@
     <option value="all">High and medium</option>
     <option value="high">High only</option>
   </select>
+
+  <label style="display:flex;align-items:center;gap:8px;margin-top:10px;cursor:pointer;">
+    <input type="checkbox" id="noSh" style="width:auto;">
+    Not Stonehenge
+  </label>
+  <p class="muted" style="margin:2px 0 0;font-size:.72rem;">Hides the four Salisbury Plain hauls so the rest of Europe can be read.</p>
 
   <label>Find in gazetteer</label>
   <input type="search" id="q" placeholder="Site, source, rock…">
@@ -169,10 +175,12 @@ function visible() {
   const region = document.getElementById('region').value;
   const ev = document.getElementById('evidence').value;
   const q = document.getElementById('q').value.trim().toLowerCase();
+  const noSh = document.getElementById('noSh').checked;
   return HAULS.filter(h =>
     h.km_used >= minKm &&
     (region === 'all' || h.region === region) &&
     (ev === 'all' || h.evidence === ev) &&
+    (!noSh || !/stonehenge/i.test(h.site + ' ' + h.id)) &&
     (!q || [h.site, h.source, h.rock, h.region, h.id].join(' ').toLowerCase().includes(q))
   );
 }
@@ -260,6 +268,7 @@ document.getElementById('minKm').addEventListener('input', e => {
 });
 document.getElementById('region').addEventListener('change', draw);
 document.getElementById('evidence').addEventListener('change', draw);
+document.getElementById('noSh').addEventListener('change', draw);
 document.getElementById('q').addEventListener('input', draw);
 document.getElementById('fit').addEventListener('click', () => {
   const rows = visible();
