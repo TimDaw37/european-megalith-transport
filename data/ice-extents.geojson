@@ -1,7 +1,7 @@
 {
   "type": "FeatureCollection",
   "name": "european-megalith-transport ice margins (schematic)",
-  "note": "Schematic ice-margin lines and mountain ice-cap footprints for map context. Not survey-grade. Toggle on to compare haul destinations with Pleistocene ice cover. Salisbury Plain and Iberian/Armorican haul sites lie south of any ice sheet that could deliver Scottish/Welsh-scale erratics.",
+  "note": "Schematic overlays for map context \u2014 not survey-grade BRITICE polygons and not ice-flow routes. Toggle to compare haul destinations with Pleistocene ice cover. Important: Ireland, Scotland and Orkney were under the BIIS at the LGM; northern hauls (Newgrange, Brodgar, Maeshowe) are post-glacial. Salisbury Plain and Iberian/Armorican sites sit south of any ice sheet that could deliver Scottish/Welsh-scale erratics. Anglian line is drawn only where onshore evidence is relatively well constrained (Finchley / East Anglia); the SW is left blank because it is poorly constrained.",
   "features": [
     {
       "type": "Feature",
@@ -11,7 +11,7 @@
         "kind": "ice-sheet-margin",
         "age": "Devensian LGM ~27\u201323 ka",
         "style": "solid",
-        "cite": "Clark et al. 2022 BRITICE-CHRONO (Boreas); BRITICE v2 Clark et al. 2018"
+        "cite": "Clark et al. 2022 BRITICE-CHRONO (Boreas); BRITICE v2 Clark et al. 2018. Ireland/Scotland were ice-covered north of this cartoon edge."
       },
       "geometry": {
         "type": "LineString",
@@ -83,70 +83,50 @@
       "type": "Feature",
       "properties": {
         "id": "anglian-evidence",
-        "label": "Anglian \u2014 limit of preserved onshore evidence (schematic; SW poorly constrained)",
+        "label": "Anglian \u2014 limit of preserved onshore evidence (Finchley / East Anglia only)",
         "kind": "ice-sheet-margin",
         "age": "Anglian ~478\u2013424 ka",
         "style": "dashed",
-        "cite": "Clark and Evans 2025 PGA; Finchley / East Anglia till limit tradition"
+        "cite": "Clark and Evans 2025 PGA. SW England omitted \u2014 poorly constrained; not a continuous ice edge to Wiltshire."
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
           [
-            -4.2,
-            51.15
-          ],
-          [
-            -3.6,
-            51.25
-          ],
-          [
-            -3.0,
-            51.35
-          ],
-          [
-            -2.4,
-            51.42
-          ],
-          [
-            -1.8,
-            51.45
-          ],
-          [
-            -1.2,
-            51.48
-          ],
-          [
-            -0.6,
-            51.52
-          ],
-          [
-            -0.2,
+            -0.35,
             51.55
           ],
           [
-            0.05,
+            -0.15,
             51.58
           ],
           [
-            0.25,
+            0.05,
             51.6
           ],
           [
-            0.5,
+            0.25,
             51.62
           ],
           [
-            0.9,
-            51.7
+            0.5,
+            51.65
           ],
           [
-            1.2,
-            51.85
+            0.75,
+            51.72
+          ],
+          [
+            1.0,
+            51.82
+          ],
+          [
+            1.25,
+            51.95
           ],
           [
             1.5,
-            52.05
+            52.15
           ]
         ]
       }
@@ -159,7 +139,7 @@
         "kind": "mountain-ice",
         "age": "Local LGM / W\u00fcrm mountain ice",
         "style": "fill",
-        "cite": "Pyrenean glacial reviews (e.g. Delmas overview; Jim\u00e9nez-S\u00e1nchez et al.)"
+        "cite": "Pyrenean glacial reviews (Delmas overview; Jim\u00e9nez-S\u00e1nchez et al.)"
       },
       "geometry": {
         "type": "Polygon",
@@ -271,7 +251,7 @@
         "kind": "mountain-ice",
         "age": "Alpine LGM",
         "style": "fill",
-        "cite": "Alpine LGM reconstructions (e.g. Ivy-Ochs / Seguinot summaries)"
+        "cite": "Alpine LGM reconstructions (Ivy-Ochs / Seguinot summaries)"
       },
       "geometry": {
         "type": "Polygon",

@@ -6,21 +6,21 @@ Gazetteer and flow map of **published, sourced hauls** of architectural stone in
 - Gazetteer table: [gazetteer.html](https://timdaw37.github.io/european-megalith-transport/gazetteer.html)
 - Data: [`data/hauls.json`](data/hauls.json) (canonical) and [`data/hauls.csv`](data/hauls.csv)
 
-Current build: **v0.4** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
+Current build: **v0.4.1** (13 September 2026). 43 hauls. The map has a **Not Stonehenge** toggle so the four Salisbury Plain lines do not swamp western Europe.
 
 ## What the map is
 
-Each record is one **source → monument** movement where petrography, geochemistry, microfacies, physical refit or an excavated quarry identifies a non-local outcrop, and glacial / purely gravitational delivery is implausible.
+Each record is one **source â' monument** movement where petrography, geochemistry, microfacies, physical refit or an excavated quarry identifies a non-local outcrop, and glacial / purely gravitational delivery is implausible.
 
 The line is a **schematic flow**, not a reconstructed Neolithic road or sea route. Source points marked `sector-centroid` or `basin-sector` are midpoints of a published search area, not a pegged quarry face.
 
-Stroke weight uses `1.2 + 3.4 × log10(km)` so a 4 km Gavrinis crossing remains visible next to the 750 km Altar Stone line. Colour bands:
+Stroke weight uses `1.2 + 3.4 Ã- log10(km)` so a 4 km Gavrinis crossing remains visible next to the 750 km Altar Stone line. Colour bands:
 
 | Colour | Distance |
 | --- | --- |
 | Green | < 20 km |
-| Amber | 20–200 km |
-| Red | ≥ 200 km |
+| Amber | 20âEUR"200 km |
+| Red | â¥ 200 km |
 
 Click a line, a point, or a row in the side list. Each haul has a stable id (`#SH-altar`) shared by the map and the gazetteer page.
 
@@ -30,24 +30,24 @@ Click a line, a point, or a row in the side list. Each haul has a stable id (`#S
 - Not Funnel Beaker chambers built of glacial erratics (ice moved the block; people stood it up).
 - Not Carnac alignments (local granite).
 - Not Callanish / Calanais. The pillars are Lewisian gneiss from the same ridge (Cnoc an Tursa knoll, Druim nan Eum, Na Dromannan). That is siting on the outcrop, not a sourced haul.
-- Not a claim that 19th-century 35–40 km attributions (La Perrotte, Moulins-sur-Céphons) have been re-proven.
+- Not a claim that 19th-century 35âEUR"40 km attributions (La Perrotte, Moulins-sur-Céphons) have been re-proven.
 
 ## The debate this list is for
 
 The gazetteer is an evidence table for a three-paper exchange in *Antiquity* that still sets the terms:
 
-1. **R. S. Thorpe & O. Williams-Thorpe 1991.** “The myth of long-distance megalith transport.” *Antiquity* 65: 64–73. Most published long hauls, Stonehenge bluestones included, were weakly provenanced; glacial erratics and local stone had been underplayed.
-2. **Aubrey Burl 1991.** “Megalithic myth or man the mover?” *Antiquity* 65: 297–298. Push-back: people did move large stones, and the glacial-erratic reading of Stonehenge does not close the case.
-3. **Mark Patton 1992.** “Megalithic transport and territorial markers: evidence from the Channel Islands.” *Antiquity* 66: 392–395. Middle position. La Hougue Bie (`LHB-foreshore` in this gazetteer) shows short-to-medium hauls that are not simply “whatever is nearest.” Kalb 1996 on Vale de Rodrigo (`VDR-barroco`) is written as a sequel to the same argument.
+1. **R. S. Thorpe & O. Williams-Thorpe 1991.** âEURThe myth of long-distance megalith transport.âEUR *Antiquity* 65: 64âEUR"73. Most published long hauls, Stonehenge bluestones included, were weakly provenanced; glacial erratics and local stone had been underplayed.
+2. **Aubrey Burl 1991.** âEURMegalithic myth or man the mover?âEUR *Antiquity* 65: 297âEUR"298. Push-back: people did move large stones, and the glacial-erratic reading of Stonehenge does not close the case.
+3. **Mark Patton 1992.** âEURMegalithic transport and territorial markers: evidence from the Channel Islands.âEUR *Antiquity* 66: 392âEUR"395. Middle position. La Hougue Bie (`LHB-foreshore` in this gazetteer) shows short-to-medium hauls that are not simply âEURwhatever is nearest.âEUR Kalb 1996 on Vale de Rodrigo (`VDR-barroco`) is written as a sequel to the same argument.
 
-Modern petrography and isotopes (Bevins, Ixer, Nash, Clarke and the Iberian geoarchaeology papers) have superseded parts of 1991 — the bluestones and the Altar Stone are no longer a myth — but they have also confirmed the other half of Thorpe & Williams-Thorpe: the default European megalith is local or a few kilometres. The histogram in this dataset is Patton’s picture with a thin long tail: a fat local peak, a 3–18 km territorial band, and a handful of genuine long hauls.
+Modern petrography and isotopes (Bevins, Ixer, Nash, Clarke and the Iberian geoarchaeology papers) have superseded parts of 1991 âEUR" the bluestones and the Altar Stone are no longer a myth âEUR" but they have also confirmed the other half of Thorpe & Williams-Thorpe: the default European megalith is local or a few kilometres. The histogram in this dataset is PattonâEURs picture with a thin long tail: a fat local peak, a 3âEUR"18 km territorial band, and a handful of genuine long hauls.
 
-Clarke et al. 2026 on the Devil’s Arrows (`DA-brimham`) is a direct empirical reply to the 1991 glacial-erratic suggestion for that row.
+Clarke et al. 2026 on the DevilâEURs Arrows (`DA-brimham`) is a direct empirical reply to the 1991 glacial-erratic suggestion for that row.
 
 ## Evidence grades
 
-- **high** — named outcrop or quarry, modern petrography / isotopes / physical refit.
-- **medium** — solid published lithology match, but sector rather than face, or an older monograph not re-run with ICP-MS.
+- **high** âEUR" named outcrop or quarry, modern petrography / isotopes / physical refit.
+- **medium** âEUR" solid published lithology match, but sector rather than face, or an older monograph not re-run with ICP-MS.
 
 ## How to add a haul
 
@@ -60,15 +60,22 @@ Clarke et al. 2026 on the Devil’s Arrows (`DA-brimham`) is a direct empirical 
 
 ## Ice margins layer
 
-Optional schematic overlays on the map (toggles off by default in spirit � checkboxes in the panel):
+Optional schematic overlays on the map (checkboxes in the panel; legend appears when a layer is on):
 
 - **BIIS / Devensian LGM** southern onshore margin
-- **Anglian** limit of preserved onshore evidence (SW poorly constrained; dashed)
+- **Anglian** evidence line — Finchley / East Anglia only (SW left blank; poorly constrained)
 - **Mountain ice** footprints: Pyrenees, Massif Central, western Alps
 
-Data: [data/ice-extents.geojson](data/ice-extents.geojson). These are **illustrative outlines** for comparing haul destinations with Pleistocene ice cover � not reconstructed ice-flow routes and not survey-grade BRITICE polygons. Salisbury Plain and the Iberian / Armorican haul sites sit south of any ice sheet that could deliver Scottish/Welsh-scale erratics.
+Data: [data/ice-extents.geojson](data/ice-extents.geojson). Illustrative outlines for comparing haul destinations with Pleistocene ice cover — **not** ice-flow routes and not survey-grade BRITICE polygons. Ireland / Orkney were under the BIIS at the LGM, so northern hauls (Newgrange, Brodgar, Maeshowe) are **post-glacial**. Salisbury Plain and Iberian / Armorican sites sit south of ice-sheet cover.
 
 Cite: Clark et al. 2022 BRITICE-CHRONO (*Boreas*); BRITICE v2; Clark and Evans 2025 (*PGA*) for Anglian evidence-limit framing.
+
+## v0.4.1 notes
+
+- Softened several v0.4 rows (TDM-sabals quarantined pending primary petro paper; Newgrange Mourne / Brodgar Houton marked medium; Freixo and others clarified as group/sector pins).
+- Safer Anglian geometry and clearer ice caption (post-glacial northern hauls).
+- Side-panel distance histogram (Patton fat local peak, thin long tail).
+
 ## Licence
 
 Text, gazetteer coordinates assembled here, and the map page: **CC BY-SA 4.0 Tim Daw**.

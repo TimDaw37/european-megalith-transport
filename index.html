@@ -52,13 +52,18 @@
   .g-km { font-variant-numeric: tabular-nums; font-weight: 700; }
   .g-src { color: #5a5348; font-size: .72rem; }
   .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  #hist { font-size: .7rem; color: #4a453c; }
+  #hist .hbar { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+  #hist .hbar .bar { height: 8px; background: #2e5a4c; border-radius: 2px; min-width: 2px; }
+  #hist .hbar .lab { width: 72px; flex: 0 0 72px; }
+  #hist .hbar .n { width: 18px; text-align: right; font-variant-numeric: tabular-nums; }
 </style>
 </head>
 <body>
 <div id="map"></div>
 <aside class="overlay">
   <h1>Proven megalith hauls</h1>
-  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4 ·
+  <p class="sub">Arrow <em>weight</em> scales with published distance. Click a line, point, or gazetteer row. v0.4.1 ·
     <a href="https://github.com/TimDaw37/european-megalith-transport">repo</a> ·
     <a href="gazetteer.html">full gazetteer</a></p>
 
@@ -87,13 +92,13 @@
   </label>
   <label style="display:flex;align-items:center;gap:8px;margin-top:4px;cursor:pointer;">
     <input type="checkbox" id="iceAnglian" style="width:auto;">
-    Anglian limit of preserved evidence
+    Anglian evidence (Finchley / E Anglia only)
   </label>
   <label style="display:flex;align-items:center;gap:8px;margin-top:4px;cursor:pointer;">
     <input type="checkbox" id="iceMountains" style="width:auto;">
     Mountain ice (Pyrenees, Massif Central, Alps)
   </label>
-  <p class="muted" style="margin:4px 0 0;font-size:.72rem;">Not routes — ice <em>wasn’t</em> over Salisbury Plain or Iberian / Armorican haul sites. Schematic outlines; see data/ice-extents.geojson.</p>
+  <p class="muted" style="margin:4px 0 0;font-size:.72rem;">Not ice-flow routes. Ireland / Orkney were under the BIIS at the LGM — northern hauls are <em>post-glacial</em>. Salisbury Plain and Iberian / Armorican sites sit south of ice-sheet cover. Anglian line = Finchley/East Anglia only (SW left blank). Schematic; see <code>data/ice-extents.geojson</code>.</p>
 
   <label>Find in gazetteer</label>
   <input type="search" id="q" placeholder="Site, source, rock…">
@@ -103,10 +108,14 @@
     <div><span class="swatch" style="background:#c46b2c;height:5px"></span> 20–200 km</div>
     <div><span class="swatch" style="background:#2e5a4c;height:3px"></span> <20 km</div>
     <div>● monument &nbsp; ◆ source &nbsp; → direction of haul</div>
-    <div><span class="swatch" style="background:#2a4d6e;height:3px"></span> Devensian LGM margin</div>
-    <div><span class="swatch" style="background:#6b4c7a;height:3px;border-bottom:2px dashed #6b4c7a"></span> Anglian evidence limit</div>
-    <div><span class="swatch" style="background:#7ea0c4;height:8px;opacity:.5"></span> Mountain ice caps</div>
+    <div id="iceLegend" style="display:none;margin-top:4px;">
+      <div><span class="swatch" style="background:#2a4d6e;height:3px"></span> Devensian LGM margin</div>
+      <div><span class="swatch" style="background:#6b4c7a;height:3px"></span> Anglian evidence (E England)</div>
+      <div><span class="swatch" style="background:#7ea0c4;height:8px;opacity:.5"></span> Mountain ice caps</div>
+    </div>
     <div class="count" id="stats"></div>
+    <div id="hist" style="margin-top:8px;" title="Distance histogram of visible hauls"></div>
+    <p class="muted" style="margin:4px 0 0;font-size:.72rem;">Histogram: Patton fat local peak, thin long tail.</p>
     <p class="muted" style="margin:8px 0 0">Schematic flows, not reconstructed routes. Sector centroids are approximate.</p>
   </div>
   <button type="button" id="fit">Fit visible</button>
@@ -158,6 +167,8 @@ function syncIce() {
   const showBiis = document.getElementById('iceBiis').checked;
   const showAng = document.getElementById('iceAnglian').checked;
   const showMtn = document.getElementById('iceMountains').checked;
+  const iceLeg = document.getElementById('iceLegend');
+  if (iceLeg) iceLeg.style.display = (showBiis || showAng || showMtn) ? 'block' : 'none';
   ICE.features.forEach(f => {
     const p = f.properties || {};
     const id = p.id || '';
@@ -174,6 +185,25 @@ function syncIce() {
 
 
 const byId = {};
+
+
+function renderHist(rows) {
+  const box = document.getElementById('hist');
+  if (!box) return;
+  const bins = [
+    { lab: '<5 km', lo: 0, hi: 5, c: '#2e5a4c' },
+    { lab: '5–20', lo: 5, hi: 20, c: '#2e5a4c' },
+    { lab: '20–50', lo: 20, hi: 50, c: '#c46b2c' },
+    { lab: '50–200', lo: 50, hi: 200, c: '#c46b2c' },
+    { lab: '≥200', lo: 200, hi: 1e9, c: '#8b3a2a' }
+  ];
+  const counts = bins.map(b => rows.filter(h => h.km_used >= b.lo && h.km_used < b.hi).length);
+  const max = Math.max(1, ...counts);
+  box.innerHTML = bins.map((b, i) => {
+    const w = Math.round(100 * counts[i] / max);
+    return `<div class="hbar"><span class="lab">${b.lab}</span><span class="bar" style="width:${w}%;background:${b.c}"></span><span class="n">${counts[i]}</span></div>`;
+  }).join('');
+}
 
 function colour(km) {
   if (km >= 200) return '#8b3a2a';
@@ -254,6 +284,7 @@ function draw() {
   const rows = visible().slice().sort((a, b) => b.km_used - a.km_used);
   document.getElementById('stats').textContent =
     `${rows.length} haul${rows.length === 1 ? '' : 's'} · longest ${rows.reduce((m,h)=>Math.max(m,h.km_used),0)} km`;
+  renderHist(rows);
   rows.forEach(h => {
     const from = [h.source_lat, h.source_lon];
     const to = [h.site_lat, h.site_lon];

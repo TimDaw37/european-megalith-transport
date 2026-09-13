@@ -1,6 +1,6 @@
 {
   "title": "European megalith transport gazetteer",
-  "version": "0.4",
+  "version": "0.4.1",
   "updated": "2026-09-13",
   "license": "CC BY-SA 4.0 Tim Daw",
   "distance_note": "km_used is the published working figure plotted on the map. Sector centroids are midpoints of a published search area.",
@@ -710,7 +710,7 @@
       "km_used": 10.5,
       "mode": "overland",
       "evidence": "high",
-      "method": "Petrography of orthostats and capstone; mapped granitoid and poudingue sources (Poncet and Mens 2023)",
+      "method": "Petrography of orthostats and capstone; mapped granitoid (<=3 km) and poudingue (10-11 km) sources (Poncet and Mens 2023). Capstone row uses the longer haul; source centroid approximate pending figure digitisation.",
       "refs": [
         "Poncet and Mens 2023"
       ],
@@ -754,7 +754,7 @@
       "km_used": 17,
       "mode": "overland",
       "evidence": "high",
-      "method": "Petrography of 42 corridor capstones; granite/shale from Sierra Morena southern edge",
+      "method": "Petrography of 42 corridor capstones (Montelirio monograph): granite/shale from Gerena-Aznalcollar Paleozoic; km_used ~17 is an envelope aligned with the nearby Pastora granite ~15 km batholith match, not a stone-by-stone measured path.",
       "refs": [
         "Fernandez Flores et al. Montelirio monograph"
       ],
@@ -776,7 +776,7 @@
       "km_used": 8,
       "mode": "overland",
       "evidence": "medium",
-      "method": "Field petrography and whole-rock geochemistry vs local stratum; longer haul when local rock unsuitable",
+      "method": "Field petrography and whole-rock geochemistry vs local stratum (Boaventura); longer haul when local rock unsuitable. Source point is a sector centroid — tighten from the paper figures before treating as a pegged quarry.",
       "refs": [
         "Boaventura 2000",
         "Boaventura and Moita 2012"
@@ -822,7 +822,7 @@
       "km_used": 8.0,
       "mode": "overland",
       "evidence": "medium",
-      "method": "Quarry traces plus macroscopic match; distance distribution falls with range from quarry",
+      "method": "Quarry traces plus macroscopic ignimbrite match (Serra ArcheoArte); distances 7-8.6 km from Monti Pranu-Tratalias. Medium grade; source/site coords are approximate sector/group pins.",
       "refs": [
         "Serra 2015-2021 ArcheoArte"
       ],
@@ -844,7 +844,7 @@
       "km_used": 50,
       "mode": "overland / coastal",
       "evidence": "medium",
-      "method": "Lithology of facade granite distinct from Wicklow quartz (NEW-wicklow)",
+      "method": "Medium: facade granite cobbles attributed to Mourne/Newry suite in published Newgrange lithology reviews; distinct from Wicklow quartz (NEW-wicklow). Sector centroid approximate.",
       "refs": [
         "Mitchell 1992",
         "Meighan et al. 2003"
@@ -867,7 +867,7 @@
       "km_used": 14,
       "mode": "overland",
       "evidence": "medium",
-      "method": "Multi-quarry Brodgar lithology groups; distinct from Vestra Fiold (BRO-vestra)",
+      "method": "Medium: multi-quarry Brodgar lithology groups include yellow Eday sandstone linked to Houton (Orphir) in Richards 2013 synthesis; distinct from Vestra Fiold (BRO-vestra). Sector centroid approximate.",
       "refs": [
         "Richards 2013"
       ],
@@ -897,7 +897,7 @@
     },
     {
       "id": "FRE-redondo",
-      "site": "Freixo-Redondo dolmens (group)",
+      "site": "Freixo-Redondo dolmens (group envelope)",
       "site_lat": 38.62,
       "site_lon": -7.78,
       "source": "Petrographically matched outcrops (not nearest exposures)",
@@ -911,7 +911,7 @@
       "km_used": 2.0,
       "mode": "overland",
       "evidence": "high",
-      "method": "Microscopy and whole-rock geochemistry; selective sourcing within 0.8-3.5 km",
+      "method": "Microscopy and whole-rock geochemistry; selective sourcing within 0.8-3.5 km (not nearest outcrop). One row for the Freixo group envelope — not a single monument pin; split if stone-by-stone tables are needed.",
       "refs": [
         "Boaventura et al. 2020 Megaliths and Geology"
       ],
@@ -933,7 +933,7 @@
       "km_used": 10,
       "mode": "overland / coastal",
       "evidence": "medium",
-      "method": "Distinct lithology from Locmariaquer orthogneiss steles (GMB/GAV); architectural geology synthesis",
+      "method": "QUARANTINE pending primary petro paper: architectural-geology synthesis attributes a Locmariaquer chamber end-slab to Morbihan sabal sandstone facies at >=10 km. Distinct from GMB/GAV orthogneiss; not yet re-run with modern thin-section/ICP. Do not treat as high-grade until cited primary work is confirmed.",
       "refs": [
         "Le Roux Locmariaquer geology",
         "L Helgouach synthesis"
